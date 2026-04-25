@@ -1,27 +1,17 @@
 pipeline {
     agent any
 
-    tools {
-        nodejs 'NodeJS'
-    }
-
     stages {
 
         stage('Checkout') {
             steps {
-             checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[credentialsId: 'GitCreds', url: 'https://github.com/Subhash-Rokkala/netflix.git']])
-            }
-        }
-
-        stage('Install Dependencies') {
-            steps {
-                sh 'npm install'
-            }
-        }
-
-        stage('Build React App') {
-            steps {
-                sh 'CI=false npm run build'
+                checkout scmGit(
+                    branches: [[name: '*/main']],
+                    userRemoteConfigs: [[
+                        credentialsId: 'GitCreds',
+                        url: 'https://github.com/Subhash-Rokkala/netflix.git'
+                    ]]
+                )
             }
         }
 
