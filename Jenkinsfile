@@ -25,7 +25,7 @@ pipeline {
             steps {
                 sh 'docker stop zepto-container || true'
                 sh 'docker rm zepto-container || true'
-                sh 'docker run -d -p 3333:80 --name zepto-container zepto-app'
+                sh 'docker run -d -p 3344:80 --name zepto-container zepto-app'
             }
         }
     }
