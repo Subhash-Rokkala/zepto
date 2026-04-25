@@ -15,17 +15,31 @@ pipeline {
             }
         }
 
+        stage('Create Artifact') {
+            steps {
+                sh '''
+                rm -rf artifact
+                mkdir artifact
+                cp -r public/* artifact/ 2>/dev/null || true
+                cp -r *.html artifact/ 2>/dev/null || true
+                cp -r *.js artifact/ 2>/dev/null || true
+                cp -r *.css artifact/ 2>/dev/null || true
+                '''
+            }
+        }
+
         stage('Docker Build') {
             steps {
-                sh 'docker build -t zepto-app .'
+                sh 'docker build --no-cache -t zepto-app .'
             }
         }
 
         stage('Docker Run') {
             steps {
-                sh 'docker stop zepto-container || true'
-                sh 'docker rm zepto-container || true'
-                sh 'docker run -d -p 3344:80 --name zepto-container zepto-app'
+                sh '''
+                docker rm -f zepto-container || true
+                docker run -d -p 3334:80 --name zepto-container zepto-app
+                '''
             }
         }
     }
